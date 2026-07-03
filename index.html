@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agustín Medina — Ingeniería Agronómica &amp; Datos Geoespaciales</title>
+<meta name="description" content="Portfolio de Agustín Medina — Ingeniería Agronómica (UNNE) en transición a datos geoespaciales y agtech.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===== TOP BAR (mimics GIS app titlebar) ===== -->
+<header class="topbar">
+  <div class="topbar__brand">
+    <span class="topbar__dot"></span>
+    AGUSTIN_MEDINA<span class="blink">.qgz</span>
+  </div>
+  <nav class="topbar__menu" aria-label="Navegación principal">
+    <button class="topbar__link" data-nav="sobre-mi">Sobre mi</button>
+    <button class="topbar__link" data-nav="proyectos">Proyectos</button>
+    <button class="topbar__link" data-nav="stack">Stack</button>
+    <button class="topbar__link" data-nav="contacto">Contacto</button>
+  </nav>
+  <button class="topbar__cv" id="cvBtn">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M12 3v13m0 0l-4-4m4 4l4-4M5 21h14"/></svg>
+    Exportar CV
+  </button>
+</header>
+
+<div class="app">
+
+  <!-- ===== LEFT SIDEBAR: layers panel ===== -->
+  <aside class="layers" aria-label="Panel de capas">
+    <div class="layers__head">
+      <span>CAPAS</span>
+      <span class="layers__count">04</span>
+    </div>
+
+    <ul class="layers__list">
+      <li class="layer" data-target="sobre-mi">
+        <span class="layer__check" aria-hidden="true"></span>
+        <span class="layer__swatch layer__swatch--soil"></span>
+        <span class="layer__name">01_sobre-mi<em>.shp</em></span>
+      </li>
+      <li class="layer" data-target="proyectos">
+        <span class="layer__check" aria-hidden="true"></span>
+        <span class="layer__swatch layer__swatch--ndvi"></span>
+        <span class="layer__name">02_proyectos<em>.shp</em></span>
+      </li>
+      <li class="layer" data-target="stack">
+        <span class="layer__check" aria-hidden="true"></span>
+        <span class="layer__swatch layer__swatch--amber"></span>
+        <span class="layer__name">03_stack<em>.shp</em></span>
+      </li>
+      <li class="layer" data-target="contacto">
+        <span class="layer__check" aria-hidden="true"></span>
+        <span class="layer__swatch layer__swatch--teal"></span>
+        <span class="layer__name">04_contacto<em>.shp</em></span>
+      </li>
+    </ul>
+
+    <div class="layers__legend">
+      <div class="layers__legend-title">Leyenda — NDVI</div>
+      <div class="legend-ramp" aria-hidden="true"></div>
+      <div class="legend-scale">
+        <span>-1.0</span><span>0.0</span><span>+1.0</span>
+      </div>
+    </div>
+
+    <div class="layers__meta">
+      <div><span>CRS</span>EPSG:4326</div>
+      <div><span>Ubicación</span>Corrientes, AR</div>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <main class="content">
+
+    <!-- HERO / map canvas -->
+    <section class="hero" id="hero">
+      <canvas id="fieldCanvas" class="hero__canvas" aria-hidden="true"></canvas>
+      <div class="hero__scanline" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+        <p class="hero__coords" id="heroCoords">-27.4692, -58.8306 &nbsp;·&nbsp; ZOOM 12</p>
+        <h1 class="hero__title">
+          AGUSTÍN<br>MEDINA SOTO
+        </h1>
+        <p class="hero__subtitle">
+          <span class="prompt">&gt;</span>Ingeniero agronómico (UNNE) en transición a
+          <span class="hl">datos geoespaciales</span> &amp; agtech
+        </p>
+        <p class="hero__desc">
+          NDVI, kriging, pipelines Python/R y APIs en producción. Piso de chacra
+          y línea de comandos, en el mismo perfil.
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary" href="mailto:agustin_corrientescapital@gmail.com">Escribime</a>
+          <a class="btn btn--ghost" href="https://github.com/agustinmedina" target="_blank" rel="noopener">GitHub</a>
+          <a class="btn btn--ghost" href="https://www.linkedin.com/in/agustin-medina-soto-a1a2a7132/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- SOBRE MI -->
+    <section class="panel" id="sobre-mi">
+      <header class="panel__head">
+        <span class="panel__tag">01 · POLYGON</span>
+        <h2 class="panel__title">Sobre mí<span class="ext">.shp</span></h2>
+      </header>
+
+      <div class="attr-table" role="table" aria-label="Atributos personales">
+        <div class="attr-row" role="row">
+          <span class="attr-key" role="columnheader">campo</span>
+          <span class="attr-key" role="columnheader">valor</span>
+        </div>
+        <div class="attr-row" role="row">
+          <span class="attr-k">formación</span>
+          <span class="attr-v">Ingeniería Agronómica — UNNE (tesis en curso)</span>
+        </div>
+        <div class="attr-row" role="row">
+          <span class="attr-k">enfoque</span>
+          <span class="attr-v">NDVI/GNDVI, kriging, zonificación de ambientes, Sentinel-2</span>
+        </div>
+        <div class="attr-row" role="row">
+          <span class="attr-k">stack</span>
+          <span class="attr-v">Python, R, SQL, FastAPI, PostgreSQL/PostGIS</span>
+        </div>
+        <div class="attr-row" role="row">
+          <span class="attr-k">flujo</span>
+          <span class="attr-v">Uso diario de Claude Code — validación crítica de diffs, no copy-paste</span>
+        </div>
+      </div>
+
+      <p class="panel__lede">
+        Entiendo las reglas del agro desde adentro —cultivos, monitores de rendimiento,
+        ciclos productivos— y las traduzco a datos: geometrías, interpolaciones, APIs
+        y tableros que alguien en el campo pueda realmente usar.
+      </p>
+    </section>
+
+    <!-- PROYECTOS -->
+    <section class="panel" id="proyectos">
+      <header class="panel__head">
+        <span class="panel__tag">02 · FEATURE COLLECTION</span>
+        <h2 class="panel__title">Proyectos<span class="ext">.shp</span></h2>
+      </header>
+
+      <div class="projects">
+
+        <article class="project">
+          <div class="project__id">F001</div>
+          <div class="project__body">
+            <h3>Pipeline geoespacial de ambientación agrícola</h3>
+            <p class="project__stack">R · terra · sf · gstat · Google Earth Engine</p>
+            <p>
+              Zonificación de lotes a partir de NDVI (Sentinel-2) e interpolación por
+              kriging ordinario de datos de monitor de rendimiento. Resolución de
+              geometrías mixtas en shapefiles reales de campo.
+            </p>
+            <a class="project__link" href="https://github.com/agustinmedina/Ambientacion---R" target="_blank" rel="noopener">repositorio →</a>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project__id">F002</div>
+          <div class="project__body">
+            <h3>AgroSaaS — Plataforma de retención ganadera</h3>
+            <p class="project__stack">Python · FastAPI · Supabase/Postgres · Docker · Railway</p>
+            <p>
+              Sistema en producción con tres servicios desplegados (backend, frontend
+              y dashboard de análisis) sobre una base de seis tablas de churn y sesiones.
+            </p>
+            <div class="project__links">
+              <a class="project__link" href="https://frontganaderiadatos.up.railway.app" target="_blank" rel="noopener">demo en vivo →</a>
+              <a class="project__link" href="https://github.com/agustinmedina/AgroSaaS" target="_blank" rel="noopener">repositorio →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project__id">F003</div>
+          <div class="project__body">
+            <h3>Curso de ambientación de lotes en QGIS</h3>
+            <p class="project__stack">QGIS · NDVI · Análisis multivariable</p>
+            <p>
+              Iniciativa propia en desarrollo: curso en español sobre zonificación de
+              lotes, con guiones de video y documentación pedagógica en dos módulos.
+            </p>
+            <span class="project__badge">en desarrollo</span>
+          </div>
+        </article>
+
+        <article class="project">
+          <div class="project__id">F004</div>
+          <div class="project__body">
+            <h3>Portfolio personal full-stack</h3>
+            <p class="project__stack">Angular · TypeScript · Java · Spring Boot</p>
+            <p>
+              Sitio de portfolio previo desarrollado end-to-end: frontend en Angular,
+              backend en Java con Spring Boot.
+            </p>
+            <div class="project__links">
+              <a class="project__link" href="https://github.com/agustinmedina/Front-Entrega2" target="_blank" rel="noopener">frontend →</a>
+              <a class="project__link" href="https://github.com/agustinmedina/Back-Entrega" target="_blank" rel="noopener">backend →</a>
+              <a class="project__link" href="https://www.youtube.com/watch?v=yeM37T-QIN4" target="_blank" rel="noopener">video demostracion →</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- STACK -->
+    <section class="panel" id="stack">
+      <header class="panel__head">
+        <span class="panel__tag">03 · SYMBOLOGY</span>
+        <h2 class="panel__title">Stack técnico<span class="ext">.shp</span></h2>
+      </header>
+
+      <div class="stack-groups">
+
+        <div class="stack-group">
+          <h3><span class="dot dot--ndvi"></span>Geoespacial</h3>
+          <ul>
+            <li>Shapefiles / GeoJSON</li>
+            <li>geopandas · shapely</li>
+            <li>terra · sf (R)</li>
+            <li>Kriging ordinario (gstat)</li>
+          </ul>
+        </div>
+
+        <div class="stack-group">
+          <h3><span class="dot dot--teal"></span>Datos &amp; Backend</h3>
+          <ul>
+            <li>PostgreSQL / Supabase</li>
+            <li>Python — FastAPI, Django</li>
+            <li>SQL — window functions</li>
+            <li>pandas</li>
+          </ul>
+        </div>
+
+        <div class="stack-group">
+          <h3><span class="dot dot--amber"></span>Infraestructura</h3>
+          <ul>
+            <li>Docker</li>
+            <li>Railway</li>
+            <li>Git / GitHub</li>
+            <li>Claude Code</li>
+          </ul>
+        </div>
+
+        <div class="stack-group">
+          <h3><span class="dot dot--soil"></span>Frontend</h3>
+          <ul>
+            <li>HTML · CSS · JavaScript</li>
+            <li>Angular / TypeScript</li>
+            <li>Leaflet</li>
+          </ul>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CONTACTO -->
+    <section class="panel panel--contact" id="contacto">
+      <header class="panel__head">
+        <span class="panel__tag">04 · POINT</span>
+        <h2 class="panel__title">Contacto<span class="ext">.shp</span></h2>
+      </header>
+
+      <div class="contact-grid">
+        <a class="contact-card" href="mailto:agustin_corrientescapital@gmail.com">
+          <span class="contact-card__label">email</span>
+          <span class="contact-card__value">agustin_corrientescapital@gmail.com</span>
+        </a>
+        <!-- teléfono eliminado por seguridad -->
+        <a class="contact-card" href="https://github.com/agustinmedina" target="_blank" rel="noopener">
+          <span class="contact-card__label">github</span>
+          <span class="contact-card__value">github.com/agustinmedina</span>
+        </a>
+        <a class="contact-card" href="https://www.linkedin.com/in/agustin-medina-soto-a1a2a7132/" target="_blank" rel="noopener">
+          <span class="contact-card__label">linkedin</span>
+          <span class="contact-card__value">agustin-medina-soto</span>
+        </a>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== STATUS BAR (mimics GIS bottom status bar) ===== -->
+<footer class="statusbar">
+  <span id="statusCoords">LAT -27.46920 · LON -58.83060</span>
+  <span class="statusbar__sep">|</span>
+  <span>EPSG:4326</span>
+  <span class="statusbar__sep">|</span>
+  <span id="statusScale">Escala 1 : 500.000</span>
+  <span class="statusbar__spacer"></span>
+  <span>© 2026 Agustín Medina Soto</span>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
